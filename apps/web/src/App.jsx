@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import SearchForm from './components/forms/SearchForm';
 import SearchResults from './components/results/SearchResults';
-import { searchPrograms } from './services/supabase';
 import './App.css';
 
 function App() {
@@ -13,12 +12,7 @@ function App() {
     setIsLoading(true);
     setHasSearched(true);
     
-    try {
-      // Пока используем тестовые данные, пока не подключим Supabase
-      // const data = await searchPrograms(params);
-      // setResults(data);
-      
-      // Тестовые данные для демонстрации
+    setTimeout(() => {
       setResults([
         {
           universityId: '1',
@@ -30,7 +24,7 @@ function App() {
           minScore: 60,
           cutoffScore: 280,
           isVerified: true,
-          sourceLink: 'https://www.hse.ru/abitur/bakalavr/',
+          sourceLink: 'https://www.hse.ru',
           mode: 'route',
         },
         {
@@ -43,15 +37,12 @@ function App() {
           minScore: 65,
           cutoffScore: 290,
           isVerified: true,
-          sourceLink: 'https://mipt.ru/education/programs/',
+          sourceLink: 'https://mipt.ru',
           mode: 'route',
         },
       ]);
-    } catch (error) {
-      console.error('Search failed:', error);
-    } finally {
       setIsLoading(false);
-    }
+    }, 800);
   };
 
   return (
@@ -65,19 +56,19 @@ function App() {
 
       <main className="app-main">
         <div className="container">
-          <SearchForm onSearch={handleSearch} />
-          
+          <div className="glass-card">
+            <SearchForm onSearch={handleSearch} />
+          </div>
           {hasSearched && (
-            <SearchResults 
-              results={results} 
-              isLoading={isLoading}
-            />
+            <div className="glass-card">
+              <SearchResults results={results} isLoading={isLoading} />
+            </div>
           )}
         </div>
       </main>
 
       <footer className="app-footer">
-        <p>© 2026 ПРОЙДУ? — Сделано с ❤️ для абитуриентов</p>
+        © {new Date().getFullYear()} ПРОЙДУ? — Навигатор для абитуриентов
       </footer>
     </div>
   );
